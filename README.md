@@ -1,0 +1,3 @@
+- [ ] Implement the whole of Ray Tracing Weekend
+- [ ] Implement this whole ray tracer with JAX
+- [ ] Implement this whole ray tracer with MLX

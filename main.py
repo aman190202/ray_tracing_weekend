@@ -1,14 +1,8 @@
 
-from rtw import unit_vector,ray,write_color
+from rtw import ray,write_color,ray_color
 from os import sys
 from tqdm import tqdm
 import numpy as np
-
-def ray_color(r : ray):
-    unit_direction = unit_vector(r.direction)
-    print(unit_direction,file=sys.stderr)
-    a = float(0.5 * ( unit_direction[1] + 1.0))
-    return (1.0 - a) * np.array([1.,1.,1.])+ a * np.array([0.5,0.7,1.0])
 
 
 def main():
@@ -70,12 +64,9 @@ if __name__=='__main__':
 
 
 
-
-
 """
 
 Doubts I had:
-
 
 def ray_color(r : ray):
     unit_direction = unit_vector(r.direction)
