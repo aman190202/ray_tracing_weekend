@@ -1,16 +1,16 @@
-
-from rtw import ray,write_color,ray_color
+from rtw import Ray,write_color,RayColor
 from os import sys
 from tqdm import tqdm
 import numpy as np
+import mlx.core as mx
 
+JAX = 0
 
-def main():
-    
+def main(apple=0):
+
     # Image
-
-    aspect_ratio = float(16.0/9.0)
-    image_width = int(400)
+    aspect_ratio = float(4.0/3.0)
+    image_width = int(720)
 
     # Calculating the image height and ensuring it's at least 1
     image_height = int(image_width/aspect_ratio)
@@ -28,6 +28,14 @@ def main():
 
     viewport_u = np.array( [viewport_width, 0 , 0]) 
     viewport_v = np.array( [0 , -viewport_height , 0])
+
+    # add on MLX functions
+
+    if(apple):
+
+        camera_center = mx.array(camera_center)
+        viewport_u = mx.array(viewport_u)
+        viewport_v = mx.array(viewport_v)
 
     # Calculate the horizontal and vertical delta vectors from pixel to pixel
     pixel_delta_u = viewport_u/ image_width
@@ -51,29 +59,18 @@ def main():
             pixel_center = pixel00_loc + (i * pixel_delta_u) + (j* pixel_delta_v)
             ray_direction = pixel_center - camera_center
 
-            
-            r = ray(camera_center,ray_direction)
-            
-            pixel_color = ray_color(r)
+            r = Ray(camera_center,ray_direction)            
+            pixel_color = RayColor(r)
             write_color(pixel_color)
 
     print('Done', file=sys.stderr)
 
 if __name__=='__main__':
-    main()
+    main(0)
 
-
-
-"""
+Qa = """
 
 Doubts I had:
-
-def ray_color(r : ray):
-    unit_direction = unit_vector(r.direction)
-    print(unit_direction,file=sys.stderr)
-    a = float(0.5 * ( unit_direction[1] + 1.0))
-    return (1.0 - a) * np.array([1.,1.,1.])+ a * np.array([0.5,0.7,1.0])
-
 
 How does normalising and using only the y direction effects the horizontal gradient as well?
 
